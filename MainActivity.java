@@ -1,25 +1,80 @@
-package sg.edu.np.WhackAMole;
+package com.example.s10189894_mad_wk2_practical;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
-
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
-    /* Hint
-        - The function setNewMole() uses the Random class to generate a random value ranged from 0 to 2.
-        - Feel free to modify the function to suit your program.
-    */
+    private Button buttonLeft;
+    private Button buttonRight;
+    private Button buttonMiddle;
+    private TextView scoreChanger;
+    private Integer count = 0;
+    private String leftChecker;
+    private String middleChecker;
+    private String rightChecker;
+    private static final String TAG = "TripleButton";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.v(TAG, "Finished Pre-Initialisation!");
+        buttonLeft = (Button) findViewById(R.id.Button1);
+        buttonMiddle = (Button) findViewById(R.id.Button2);
+        buttonRight = (Button) findViewById(R.id.Button3);
+        scoreChanger = (TextView) findViewById(R.id.score);
+
+        buttonLeft.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.v(TAG, "Button 1 clicked");
+                if (leftChecker == "*") {
+                    count += 1;
+                    scoreChanger.setText(""+count);
+                }else
+                    {
+                        count -= 1;
+                        scoreChanger.setText(""+count);
+                    }
+                onStart();
+            }
+        });
+
+        buttonMiddle.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.v(TAG, "Button 2 clicked");
+                if (middleChecker == "*") {
+                    count += 1;
+                    scoreChanger.setText(""+ count);
+                }else
+                {
+                    count -= 1;
+                    scoreChanger.setText(""+count);
+                }
+                onStart();
+            }
+        });
+
+        buttonRight.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.v(TAG, "Button 3 clicked");
+                if (rightChecker == "*") {
+                    count += 1;
+                    scoreChanger.setText(""+count);
+                }else
+                {
+                    count -= 1;
+                    scoreChanger.setText(""+count);
+                }
+                onStart();
+            }
+        });
     }
 
     @Override
@@ -27,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         setNewMole();
         Log.v(TAG, "Starting GUI!");
+        leftChecker = buttonLeft.getText().toString();
+        middleChecker = buttonMiddle.getText().toString();
+        rightChecker = buttonRight.getText().toString();
     }
 
 
@@ -34,5 +92,20 @@ public class MainActivity extends AppCompatActivity {
     {
         Random ran = new Random();
         int randomLocation = ran.nextInt(3);
+        if(randomLocation == 0){
+            buttonLeft.setText("*");
+            buttonMiddle.setText("O");
+            buttonRight.setText("O");
+        }
+        else if(randomLocation == 1){
+            buttonLeft.setText("O");
+            buttonMiddle.setText("*");
+            buttonRight.setText("O");
+        }
+        else {
+            buttonLeft.setText("O");
+            buttonMiddle.setText("O");
+            buttonRight.setText("*");
+        }
     }
 }
